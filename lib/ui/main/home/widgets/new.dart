@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:macbro/data/models/new/new_response.dart';
 
 import '../widgets/product_item.dart';
 
-class New extends StatelessWidget {
-  const New({Key? key}) : super(key: key);
+class NewItem extends StatelessWidget {
+  const NewItem({Key? key, this.new_product}) : super(key: key);
 
+ final News? new_product;
   @override
   Widget build(BuildContext context) {
     return Column(

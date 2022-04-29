@@ -6,24 +6,45 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.16.2 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
+  intl: ^0.17.0
   cupertino_icons: ^1.0.2
+  # Getx state management
   get: ^4.6.1
+  # image svg widget
   flutter_svg: ^1.0.3
+  # keyboard dismiss
   keyboard_dismisser: ^2.0.1
+  # screen_utils
   flutter_screenutil: ^5.3.1
+  # rest api
+  dio: ^4.0.6
+  dio_retry_plus: ^1.0.2
+  # retrofit
+  retrofit: ^3.0.1+1
+  # chuck
+  chuck_interceptor: ^1.0.0
+  # platform
   platform: ^3.1.0
+  translator: ^0.1.7
+  cached_network_image: ^3.2.0
+  carousel_slider: ^4.1.1
+  smooth_page_indicator: ^1.0.0+2
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^1.0.0
+  retrofit_generator: any
+  hive_generator: ^1.1.2
+  build_runner: ^2.1.8
 
 flutter:
 

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:macbro/ui/main/home/widgets/discount_product_item.dart';
 
-import '../widgets/product_item.dart';
+import 'product_item.dart';
 
 class Featured extends StatelessWidget {
   const Featured({Key? key}) : super(key: key);

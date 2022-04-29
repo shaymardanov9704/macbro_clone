@@ -4,11 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:macbro/controller/main/home/home_controller.dart';
 import 'package:macbro/core/theme/app_colors.dart';
-import 'package:macbro/ui/main/home/items/banner.dart';
-import 'package:macbro/ui/main/home/items/categories.dart';
-import 'package:macbro/ui/main/home/items/discounts.dart';
-import 'package:macbro/ui/main/home/items/featured.dart';
-import 'package:macbro/ui/main/home/items/new.dart';
+import 'package:macbro/ui/main/home/widgets/banner.dart';
+import 'package:macbro/ui/main/home/widgets/banner_widget.dart';
+import 'package:macbro/ui/main/home/widgets/categories.dart';
+import 'package:macbro/ui/main/home/widgets/discounts.dart';
+import 'package:macbro/ui/main/home/widgets/featured.dart';
+import 'package:macbro/ui/main/home/widgets/new.dart';
+import 'package:macbro/ui/main/home/widgets/new_widget.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
@@ -38,19 +40,12 @@ class HomePage extends GetView<HomeController> {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
         children: [
-          const BannerI(),
-          SizedBox(height: 39.h),
-          const New(),
-          SizedBox(height: 25.h),
-          const Discounts(),
-          SizedBox(height: 25.h),
-          const Featured(),
-          SizedBox(height: 32.h),
-          const Categories()
+          BannerWidget(),
+          SizedBox(height: 20,),
+         // NewWidget()
         ],
-      ),
+      )
     );
   }
 }

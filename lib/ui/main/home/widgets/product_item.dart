@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:macbro/core/theme/app_colors.dart';
+import 'package:macbro/data/models/new/new_response.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({Key? key}) : super(key: key);
+  const ProductItem({Key? key, this.new_product}) : super(key: key);
+  final News? new_product;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +27,8 @@ class ProductItem extends StatelessWidget {
             child: Stack(
               children: [
                 Center(
-                    child: Image.asset(
-                  'assets/svg/img_1.png',
+                    child: Image.network(
+                  new_product?.imageURL??'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
                   width: 124.w,
                   height: 112.h,
                 )),
@@ -56,7 +58,7 @@ class ProductItem extends StatelessWidget {
             height: 6,
           ),
           Text(
-            'MacBook',
+            new_product?.title??'',
             textAlign: TextAlign.left,
             style: TextStyle(color: Colors.black, fontSize: 17),
           ),
@@ -64,7 +66,7 @@ class ProductItem extends StatelessWidget {
             height: 6,
           ),
           Text(
-            'от 10 599 999 сум',
+            new_product?.title??'',
             textAlign: TextAlign.left,
             style: TextStyle(color: Colors.blue, fontSize: 17),
           ),
