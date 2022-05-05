@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:macbro/core/constants/constants.dart';
+import 'package:macbro/data/models/featured_list/featured_list_response.dart';
 import 'package:macbro/data/models/new/new_response.dart';
-import 'package:macbro/ui/main/home/widgets/new.dart';
+import 'package:macbro/data/models/product/single_product_response.dart';
 
 import '../../../base/base_repository.dart';
 import '../../models/banners/banners_response.dart';
@@ -17,13 +17,12 @@ class HomeRepository extends BaseRepository {
   HomeRepository({required this.apiClient}) : assert(apiClient != null);
 
   Future<ResponseHandler<BannersResponse>> _fetchBanners({
-    required String shipperId,
     required int page,
     required int limit,
   }) async {
     BannersResponse response;
     try {
-      response = await apiClient!.getBanners(shipperId, page, limit);
+      response = await apiClient!.getBanners(1, 100);
     } catch (error, stacktrace) {
       debugPrint("Exception occurred: $error stacktrace: $stacktrace");
       return ResponseHandler()
@@ -32,9 +31,8 @@ class HomeRepository extends BaseRepository {
     return ResponseHandler()..data = response;
   }
 
-  Future<dynamic> getBanners({required String shipperId}) async {
-    final response =
-    await _fetchBanners(shipperId: shipperId, limit: 100, page: 1);
+  Future<dynamic> getBanners() async {
+    final response = await _fetchBanners(limit: 100, page: 1);
     if (response.data != null) {
       return response.data;
     } else if (response.getException()?.getErrorMessage() != "Canceled") {
@@ -45,11 +43,10 @@ class HomeRepository extends BaseRepository {
   }
 
   Future<ResponseHandler<CategoryResponse?>> _fetchCategoryWithProducts(
-      {required String shipperId, int page = 1, int limit = 1000}) async {
+      {int page = 1, int limit = 100}) async {
     CategoryResponse response;
     try {
-      response = await apiClient!
-          .getCategoryWithProduct(shipperId, page, limit, true, false);
+      response = await apiClient!.getCategories(page, limit, 'ru');
     } catch (error, stacktrace) {
       debugPrint("Exception occurred: $error stacktrace: $stacktrace");
       return ResponseHandler()
@@ -58,37 +55,31 @@ class HomeRepository extends BaseRepository {
     return ResponseHandler()..data = response;
   }
 
-  Future<dynamic> getCategoryWithProducts({required String shipperId}) async {
-    final response = await _fetchCategoryWithProducts(shipperId: shipperId);
+  Future<dynamic> getCategories() async {
+    final response = await _fetchCategoryWithProducts();
     if (response.data != null) {
       return response.data;
     } else if (response.getException()?.getErrorMessage() != "Canceled") {
       return await getErrorMessage(
-        response.getException()?.getErrorMessage() ?? '',
+        response.getException()?.getErrorMessage() ?? 'Error',
       );
     }
   }
 
-
-
-  Future<ResponseHandler<News>> _fetchNewProducts({required String shipperId,
-    int page = 1,
-    int limit = 1000})async{
-    News response;
+  Future<ResponseHandler<FeaturedListResponse>> _fetchNewProducts() async {
+    FeaturedListResponse response;
     try {
-      response = (await apiClient!
-          .getNew(shipperId,'')) as News;
+      response = (await apiClient!.getFeaturedList("rasprodazha", 'ru'));
     } catch (error, stacktrace) {
       debugPrint("Exception occurred: $error stacktrace: $stacktrace");
       return ResponseHandler()
         ..setException(ServerError.withError(error: error as DioError));
     }
-    return ResponseHandler()..data = response as News?;
+    return ResponseHandler()..data = response;
   }
 
-  Future<dynamic> getNewProducts( {required String shipperId})async{
-    final response =
-    await _fetchNewProducts(shipperId: shipperId);
+  Future<dynamic> getFeaturedList() async {
+    final response = await _fetchNewProducts();
     if (response.data != null) {
       return response.data;
     } else if (response.getException()?.getErrorMessage() != "Canceled") {
@@ -97,4 +88,6 @@ class HomeRepository extends BaseRepository {
       );
     }
   }
+
+
 }

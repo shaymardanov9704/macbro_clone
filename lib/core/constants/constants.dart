@@ -5,10 +5,11 @@ class AppConstants {
   AppConstants._();
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  static const baseUrl = kDebugMode
-      ? 'https://api.client.macbro.uz/v1/'
-      : 'https://api.client.macbro.uz/v1/';
-  static const shipperId = !kDebugMode
-      ? 'd4b1658f-3271-4973-8591-98a82939a664'
-      : 'e2d30f35-3d1e-4363-8113-9c81fdb2a762';
+  static const String baseUrl = 'https://api.client.macbro.uz/v1/';
+  static const String authUrl = 'https://api.auth.macbro.uz/';
+  static const String android = '7d4a4c38-dd84-4902-b744-0488b80a4c03';
+  static const String ios = '7d4a4c38-dd84-4902-b744-0488b80a4c02';
+  static const String clientTypeId = '5a3818a9-90f0-44e9-a053-3be0ba1e2c07';
+  static const String roleId = 'a1ca1301-4da9-424d-a9e2-578ae6dcde07';
+  static const String companyId = 'e568df13-a773-4a83-a874-7dd1756aa88b';
 }

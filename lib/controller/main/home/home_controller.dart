@@ -1,62 +1,97 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import '../../../../data/database/boxes/box.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_ticket_provider_mixin.dart';
-import 'package:macbro/data/models/new/new_response.dart';
+import 'package:macbro/data/database/boxes/box.dart';
+import 'package:macbro/data/database/models/favorite_products.dart';
+import 'package:macbro/data/models/featured_list/featured_list_response.dart'
+    as t;
+import 'package:macbro/data/models/product/single_product_response.dart' as g;
 
 import '../../../base/base_controller.dart';
-import '../../../core/constants/constants.dart';
 import '../../../data/models/banners/banners_response.dart';
 import '../../../data/models/category/category_response.dart';
 import '../../../data/repository/home/home_repository.dart';
-import '../../../ui/main/home/widgets/new.dart';
-
 
 class HomeController extends BaseController
-
-  with GetSingleTickerProviderStateMixin {
+    with GetSingleTickerProviderStateMixin {
   final HomeRepository? repository;
 
   HomeController({
-  required this.repository,
-  }) : assert(repository != null);
+    required this.repository,
+    }) ;
 
   List<Banners> _banners = [];
   List<Categories> _categories = [];
-  List<News> _new_products = [];
+  List<t.Products> _new_products = [];
+  g.Product productResponse = g.Product();
   int _index = 0;
-  late TabController tabController;
+  static int activeInde = 0;
   final scrollController = ScrollController();
 
   @override
   void onInit() {
-  getBanners();
-  tabController = TabController(length: 1, vsync: this);
-  super.onInit();
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    getBanners();
+    getCategories();
+    getFeaturedProducts();
+    super.onReady();
   }
 
   void setIndex(int i) {
-  _index = i;
-  update();
+    _index = i;
+    update();
+  }
+
+  final ids = Boxes.getProducts().values.toList();
+
+  bool isActive(String id){
+    bool a = false;
+    for (var i = 0; i < ids.length; i++) {
+      if (id == ids[i].id) {
+        a = true;
+      } else {
+        a = false;
+      }
+    }
+    return a;
+  }
+  Future addProduct(String pID) async {
+    final productId = FavoriteProducts()..id = pID;
+
+    final box = Boxes.getProducts();
+    box.add(productId);
+    update();
+  }
+
+
+//   Future removeProduct(String productId)async{
+//
+// }
+  void activeIndex(int index) {
+    activeInde = index;
+    update();
   }
 
   Future<void> getBanners() async {
-  setLoading(true);
-  final result = await repository?.getBanners(shipperId: AppConstants.shipperId);
-  if (result is BannersResponse) {
-  _banners = result.banners!;
-  update();
-  print('ture');
-  } else {
-  Get.snackbar('error'.tr, result.toString());
+    setLoading(true);
+    final result = await repository?.getBanners();
+    if (result is BannersResponse) {
+      _banners = result.banners!;
+      update();
+    } else {
+      Get.snackbar('error'.tr, result.toString());
+    }
   }
-  }
-
 
   Future<void> getCategories() async {
     setLoading(true);
-    final result = await repository?.getCategoryWithProducts(shipperId: AppConstants.shipperId);
+    final result = await repository?.getCategories();
     if (result is CategoryResponse) {
       _categories = result.categories!;
       update();
@@ -65,28 +100,26 @@ class HomeController extends BaseController
     }
   }
 
-  Future<void> getNewProducts() async {
+  Future<void> getFeaturedProducts() async {
     setLoading(true);
-    final result = await repository?.getNewProducts(shipperId: AppConstants.shipperId);
-    if (result is NewResponse) {
-      _new_products = result.news!;
+    final result = await repository?.getFeaturedList();
+    if (result is t.FeaturedListResponse) {
+      _new_products = result.featuredList?.products ?? [];
       update();
     } else {
       Get.snackbar('error'.tr, result.toString());
     }
   }
 
+
+
   List<Banners> get banners => _banners;
 
   List<Categories> get categories => _categories;
 
-  List<News> get news => _new_products;
+  List<t.Products> get news => _new_products;
+
+ g.Product get product => productResponse;
 
   int get index => _index;
-
-  // List<Categories> get checkedCategories =>
-  // _categories.where((element) => element.isChecked).toList();
-
-
-  }
-
+}

@@ -1,17 +1,14 @@
 import 'package:chuck_interceptor/chuck.dart';
-import 'package:dio_retry_plus/dio_retry_plus.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+import 'package:macbro/data/models/product/single_product_response.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
-import '../../base/base_functions.dart';
 import '../../core/constants/constants.dart';
-import '../../routes/app_routes.dart';
 import '../models/banners/banners_response.dart';
 import '../models/category/category_response.dart';
-import '../models/new/new_response.dart';
+import '../models/featured_list/featured_list_response.dart';
 import '../models/token/refresh_token_request.dart';
 import '../models/token/refresh_token_response.dart';
 
@@ -82,32 +79,34 @@ abstract class ApiClient {
   /// Get banner list
   @GET('banner')
   Future<BannersResponse> getBanners(
-      @Header('Shipper') String shipperId,
-      @Query('page') int page,
-      @Query('limit') int limit,
-      );
+    @Query('page') int page,
+    @Query('limit') int limit,
+  );
 
   /// Get categories and products
   @GET('category')
-  Future<CategoryResponse> getCategoryWithProduct(
-      @Header('Shipper') String shipperId,
-      @Query('page') int page,
-      @Query('limit') int limit,
-      @Query('with_products') bool withProducts,
-      @Query('all') bool all,
+  Future<CategoryResponse> getCategories(
+    @Query('page') int page,
+    @Query('limit') int limit,
+    @Query('lang') String lang,
+  );
+
+  @GET('product/{product_id}')
+  Future<SingleProductResponse> getProduct(
+      @Path('product_id') String product_id,
+      @Query('lang') String lang,
       );
 
-  /// Get product info
-  @GET('new')
-  Future<NewResponse> getNew(
-      @Header('Shipper') String shipperId,
-      @Path('product_id') String productId,
-      );
-
-  /// Get all products
+  @GET('featured-list/{key}')
+  Future<FeaturedListResponse> getFeaturedList(
+    @Path('key') String key,
+    @Query('lang') String lang,
+  );
 
   @GET('customers/refresh-token')
   Future<RefreshTokenResponse> refreshToken(
-      @Body() RefreshTokenRequest request,
-      );
+    @Body() RefreshTokenRequest request,
+  );
+
+
 }

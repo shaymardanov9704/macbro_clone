@@ -18,11 +18,10 @@ class _ApiClient implements ApiClient {
   String? baseUrl;
 
   @override
-  Future<BannersResponse> getBanners(shipperId, page, limit) async {
+  Future<BannersResponse> getBanners(page, limit) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page, r'limit': limit};
-    final _headers = <String, dynamic>{r'Shipper': shipperId};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<BannersResponse>(
@@ -35,17 +34,14 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<CategoryResponse> getCategoryWithProduct(
-      shipperId, page, limit, withProducts, all) async {
+  Future<CategoryResponse> getCategories(page, limit, lang) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'limit': limit,
-      r'with_products': withProducts,
-      r'all': all
+      r'lang': lang
     };
-    final _headers = <String, dynamic>{r'Shipper': shipperId};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<CategoryResponse>(
@@ -58,19 +54,34 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<NewResponse> getNew(shipperId, productId) async {
+  Future<SingleProductResponse> getProduct(product_id, lang) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Shipper': shipperId};
-    _headers.removeWhere((k, v) => v == null);
+    final queryParameters = <String, dynamic>{r'lang': lang};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<NewResponse>(
+        _setStreamType<SingleProductResponse>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, 'new',
+                .compose(_dio.options, 'product/${product_id}',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = NewResponse.fromJson(_result.data!);
+    final value = SingleProductResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<FeaturedListResponse> getFeaturedList(key, lang) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'lang': lang};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<FeaturedListResponse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, 'featured-list/${key}',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = FeaturedListResponse.fromJson(_result.data!);
     return value;
   }
 

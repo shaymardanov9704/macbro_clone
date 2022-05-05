@@ -20,9 +20,9 @@ class MainPage extends GetView<MainController> {
                 index: controller.bottomMenu.index,
                 children: const [
                   HomePage(),
-                  Profile(),
                   Basket(),
                   Favourite(),
+                  Profile(),
                 ],
               ),
               bottomNavigationBar: BottomNavigationBar(

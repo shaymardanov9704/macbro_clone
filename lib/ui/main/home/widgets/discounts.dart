@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'discount_product_item.dart';
-import 'product_item.dart';
+import 'product.dart';
 
 class Discounts extends StatelessWidget {
   const Discounts({Key? key}) : super(key: key);
