@@ -1,6 +1,5 @@
 import 'package:chuck_interceptor/chuck.dart';
 import 'package:flutter/foundation.dart';
-import 'package:macbro/data/models/product/single_product_response.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
@@ -39,17 +38,6 @@ abstract class ApiClient {
         ),
       );
     }
-
-    // /// Tries the last error request again.
-    // dio.interceptors.add(
-    //   RetryInterceptor(
-    //     dio: dio,
-    //     toNoInternetPageNavigator: () async =>
-    //     await Get.toNamed(AppRoutes.internetConnection),
-    //     accessTokenGetter: () => LocalSource.instance.getAccessToken(),
-    //     refreshTokenFunction: BaseFunctions.refreshToken,
-    //   ),
-    // );
 
     return dio;
   }
@@ -91,11 +79,6 @@ abstract class ApiClient {
     @Query('lang') String lang,
   );
 
-  @GET('product/{product_id}')
-  Future<SingleProductResponse> getProduct(
-      @Path('product_id') String product_id,
-      @Query('lang') String lang,
-      );
 
   @GET('featured-list/{key}')
   Future<FeaturedListResponse> getFeaturedList(

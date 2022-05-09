@@ -1,16 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:macbro/data/models/product/single_product_response.dart' as t;
 
 import '../../../../base/base_functions.dart';
 import '../../../../controller/main/home/home_controller.dart';
+import '../../../../data/database/models/favorite_products.dart';
+import '../../../../data/models/featured_list/featured_list_response.dart';
 
 class FavoriteProduct extends StatelessWidget {
   const FavoriteProduct({Key? key, required this.product}) : super(key: key);
 
-  final t.Product? product;
+  final FavoriteProducts? product;
 
 
   @override
@@ -18,14 +20,14 @@ class FavoriteProduct extends StatelessWidget {
 
     return  GetBuilder<HomeController>(
       builder: (controller) => Container(
-        width: 153.w,
+        width: 164.w,
         margin: const EdgeInsets.only(right: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 152.w,
-              height: 160.h,
+              width: 163.w,
+              height: 164.h,
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
@@ -34,11 +36,14 @@ class FavoriteProduct extends StatelessWidget {
               child: Stack(
                 children: [
                   Center(
-                    child: Image.network(
-                    product?.image??
+                    child: CachedNetworkImage(
+                      imageUrl:  product?.imageUrl??
                           'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
                       width: 124.w,
                       height: 112.h,
+                      errorWidget: (_, __, ___) => SizedBox(
+                        child: Image.asset('assets/svg/img_3.png'),
+                      ),
                     ),
                   ),
                   Row(
@@ -46,7 +51,7 @@ class FavoriteProduct extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: (){
-                          controller.addProduct(product?.id??'');
+                          product?.delete();
                         },
                         child: Container(
                           height: 24.h,
@@ -55,11 +60,11 @@ class FavoriteProduct extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             color: const Color.fromRGBO(245, 245, 245, 1),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Icon(
                               CupertinoIcons.heart_fill,
                               size: 15,
-                              color: Colors.grey,
+                              color: Colors.blue,
                             ),
                           ),
                         ),
@@ -82,7 +87,7 @@ class FavoriteProduct extends StatelessWidget {
               height: 6,
             ),
             Text(
-              BaseFunctions.moneyFormatSymbol(product?.cheapestPrice ?? 0),
+              BaseFunctions.moneyFormatSymbol(product?.price ?? 0),
               textAlign: TextAlign.left,
               style: const TextStyle(color: Colors.blue, fontSize: 17),
             ),

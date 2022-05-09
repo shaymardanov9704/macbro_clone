@@ -1,15 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:macbro/controller/main/favourite/favorite_controller.dart';
-import 'package:macbro/controller/main/home/home_controller.dart';
 import 'package:macbro/data/database/models/favorite_products.dart';
 import 'package:macbro/ui/main/favourite/widgets/favorite_product.dart';
 
 import '../../../data/database/boxes/box.dart';
-import '../home/widgets/product.dart';
 
 class Favourite extends StatefulWidget {
   const Favourite({Key? key}) : super(key: key);
@@ -31,46 +27,32 @@ class _FavouriteState extends State<Favourite> {
       appBar: AppBar(
         title: const Text('Favorite'),
       ),
-      body: GetBuilder<FavoriteController>(
-        builder: (controller) => GridView.builder(
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 6),
-          itemCount: controller.favoriteProducts.length,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            var product = controller.favoriteProducts[index];
-            return FavoriteProduct(
-              product: product,
-            );
-          },
-
-        ),
+      body: ValueListenableBuilder<Box<FavoriteProducts>>(
+        valueListenable: Boxes.getProducts().listenable(),
+        builder: (context, box, _) {
+          final products = box.values.toList().cast<FavoriteProducts>();
+          return Container(
+            child: products.isNotEmpty ?GridView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  childAspectRatio: 0.75,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 0),
+              itemBuilder: (context, index) =>
+                  FavoriteProduct(product: products[index]),
+              itemCount: products.length,
+            ):SizedBox(
+              child: Center(
+                child: Image.asset('assets/png/empty.png',width: 311,height: 311,),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 }
 
-/*
 
-itemBuilder: (context, index) {
-            var product = controller.favoriteProducts[index];
-            return FavoriteProduct(
-              product: product,
-            );
-          },
-          itemCount: controller.favoriteProducts.length,
-
-ValueListenableBuilder<Box<FavoriteProducts>>(
-            valueListenable: Boxes.getProducts().listenable(),
-            builder: (context, box, _) {
-              final tasks = box.values.toList().cast<FavoriteProducts>();
-              return ListView.builder(
-                itemBuilder: (context, index) => Text(tasks[index].id),
-                itemCount: tasks.length,
-              );
-            },
-          )
- */

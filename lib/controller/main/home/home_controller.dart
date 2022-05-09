@@ -7,7 +7,6 @@ import 'package:macbro/data/database/boxes/box.dart';
 import 'package:macbro/data/database/models/favorite_products.dart';
 import 'package:macbro/data/models/featured_list/featured_list_response.dart'
     as t;
-import 'package:macbro/data/models/product/single_product_response.dart' as g;
 
 import '../../../base/base_controller.dart';
 import '../../../data/models/banners/banners_response.dart';
@@ -20,12 +19,11 @@ class HomeController extends BaseController
 
   HomeController({
     required this.repository,
-    }) ;
+  });
 
   List<Banners> _banners = [];
   List<Categories> _categories = [];
   List<t.Products> _new_products = [];
-  g.Product productResponse = g.Product();
   int _index = 0;
   static int activeInde = 0;
   final scrollController = ScrollController();
@@ -48,31 +46,29 @@ class HomeController extends BaseController
     update();
   }
 
-  final ids = Boxes.getProducts().values.toList();
 
-  bool isActive(String id){
-    bool a = false;
-    for (var i = 0; i < ids.length; i++) {
-      if (id == ids[i].id) {
-        a = true;
-      } else {
-        a = false;
-      }
-    }
-    return a;
-  }
-  Future addProduct(String pID) async {
-    final productId = FavoriteProducts()..id = pID;
+  Future addProduct(String id, String image, String name, int price) async {
+    final productId = FavoriteProducts()
+      ..id = id
+      ..imageUrl = image
+      ..name = name
+      ..price = price;
 
     final box = Boxes.getProducts();
     box.add(productId);
     update();
   }
 
+  Future removeProduct(String? productId) async {
+    final items = Boxes.getProducts().values.toList();
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].id == productId) {
+        items[i].delete();
+      }
+    }
+    update();
+  }
 
-//   Future removeProduct(String productId)async{
-//
-// }
   void activeIndex(int index) {
     activeInde = index;
     update();
@@ -111,15 +107,11 @@ class HomeController extends BaseController
     }
   }
 
-
-
   List<Banners> get banners => _banners;
 
   List<Categories> get categories => _categories;
 
   List<t.Products> get news => _new_products;
-
- g.Product get product => productResponse;
 
   int get index => _index;
 }

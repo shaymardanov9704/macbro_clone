@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:macbro/data/models/featured_list/featured_list_response.dart';
-import 'package:macbro/data/models/new/new_response.dart';
-import 'package:macbro/data/models/product/single_product_response.dart';
 
 import '../../../base/base_repository.dart';
 import '../../models/banners/banners_response.dart';

@@ -3,5 +3,5 @@ class AppRoutes{
 
   static const initial = '/';
   static const main = '/main';
-  //static const main = '/main';
+  static const  category_detail_page = '/category_detail_page';
 }

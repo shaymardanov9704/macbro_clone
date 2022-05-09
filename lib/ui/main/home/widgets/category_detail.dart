@@ -2,20 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:macbro/data/models/category/category_response.dart';
-import 'package:macbro/routes/app_routes.dart';
+import 'package:macbro/data/models/category/category_response.dart' as t;
+class CategoryDetail extends StatelessWidget {
+  const CategoryDetail({Key? key, this.products}) : super(key: key);
 
-class CategoryWidget extends StatelessWidget {
-  const CategoryWidget({Key? key, this.categories}) : super(key: key);
-  final Categories? categories;
+  final t.Products? products;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-         Get.toNamed(AppRoutes.category_detail_page,arguments: categories);
-      },
+
       child: Container(
         padding: const EdgeInsets.all(16),
         width: 165.5.w,
@@ -29,17 +25,16 @@ class CategoryWidget extends StatelessWidget {
           children: [
             Center(
                 child: CachedNetworkImage(
-                  imageUrl: categories?.image ??
+                  imageUrl: products?.image ??
                       'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg',
                   height: 95,
                   width: 102,
                   errorWidget: (_, __, ___) => SizedBox(
-
                     child: Image.asset('assets/png/img_3.png'),
                   ),
                 )),
             Text(
-              categories?.name ?? '',
+              products?.name ??'Null',
               textAlign: TextAlign.center,
               style: const TextStyle(
                   color: Colors.black87,
