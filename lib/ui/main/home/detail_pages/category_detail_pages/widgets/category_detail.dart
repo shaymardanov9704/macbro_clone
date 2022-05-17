@@ -2,16 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:macbro/data/models/category/category_response.dart' as t;
+import 'package:macbro/routes/app_routes.dart';
 class CategoryDetail extends StatelessWidget {
   const CategoryDetail({Key? key, this.products}) : super(key: key);
 
-  final t.Products? products;
+  final t.Children? products;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-
+onTap: (){
+  //Get.toNamed(AppRoutes.category_detail_page_list,arguments: products);
+},
       child: Container(
         padding: const EdgeInsets.all(16),
         width: 165.5.w,

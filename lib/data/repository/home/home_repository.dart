@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:macbro/data/models/featured_list/featured_list_response.dart';
+import 'package:macbro/data/models/product/product_response.dart';
 
 import '../../../base/base_repository.dart';
 import '../../models/banners/banners_response.dart';
@@ -87,5 +88,27 @@ class HomeRepository extends BaseRepository {
     }
   }
 
+  Future<ResponseHandler<ProductResponse>> _fetchProduct(String? slug)async{
+    ProductResponse response;
+    try {
+      response = (await apiClient!.getProduct(slug, 'ru'));
+    } catch (error, stacktrace) {
+      debugPrint("Exception occurred: $error stacktrace: $stacktrace");
+      return ResponseHandler()
+        ..setException(ServerError.withError(error: error as DioError));
+    }
+    return ResponseHandler()..data = response;
+  }
+
+  Future<dynamic> getProduct(String? slug)async{
+    final response = await _fetchProduct(slug);
+    if (response.data != null) {
+      return response.data;
+    } else if (response.getException()?.getErrorMessage() != "Canceled") {
+      return await getErrorMessage(
+        response.getException()?.getErrorMessage() ?? '',
+      );
+    }
+  }
 
 }

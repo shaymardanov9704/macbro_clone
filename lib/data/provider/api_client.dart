@@ -1,5 +1,6 @@
 import 'package:chuck_interceptor/chuck.dart';
 import 'package:flutter/foundation.dart';
+import 'package:macbro/data/models/product/product_response.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
@@ -79,10 +80,15 @@ abstract class ApiClient {
     @Query('lang') String lang,
   );
 
-
   @GET('featured-list/{key}')
   Future<FeaturedListResponse> getFeaturedList(
     @Path('key') String key,
+    @Query('lang') String lang,
+  );
+
+  @GET('product/{slug}')
+  Future<ProductResponse> getProduct(
+    @Path('slug') String? slug,
     @Query('lang') String lang,
   );
 
@@ -90,6 +96,4 @@ abstract class ApiClient {
   Future<RefreshTokenResponse> refreshToken(
     @Body() RefreshTokenRequest request,
   );
-
-
 }

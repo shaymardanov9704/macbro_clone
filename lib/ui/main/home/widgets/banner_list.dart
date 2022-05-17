@@ -39,7 +39,7 @@ class _BannerListState extends State<BannerList> {
               },
             ),
             Container(
-              width: 343.w,
+              width: 375.w,
               height: 180.h,
               padding: const EdgeInsets.all(8),
               child: Column(

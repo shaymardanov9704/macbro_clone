@@ -53,7 +53,6 @@ class _ApiClient implements ApiClient {
     return value;
   }
 
-
   @override
   Future<FeaturedListResponse> getFeaturedList(key, lang) async {
     const _extra = <String, dynamic>{};
@@ -67,6 +66,23 @@ class _ApiClient implements ApiClient {
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = FeaturedListResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ProductResponse> getProduct(slug, lang) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'lang': lang};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ProductResponse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, 'product/${slug}',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ProductResponse.fromJson(_result.data!);
     return value;
   }
 

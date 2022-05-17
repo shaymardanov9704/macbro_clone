@@ -5,6 +5,11 @@ import 'app_colors.dart';
 class AppTextStyles {
   AppTextStyles._();
 
+  static const appTS =  TextStyle(
+      color: AppColors.black,
+      fontSize: 20,
+      fontWeight: FontWeight.w600);
+
   static const appBarTitle = TextStyle(
     color: AppColors.black,
     fontSize: 17,

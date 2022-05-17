@@ -1,16 +1,10 @@
-import 'dart:convert';
-/// categories : [{"active":true,"product":[{"active":true,"product":[{"active":true,"created_at":"string","description":"string","id":"string","image":"string","name":"string","order":"0","slug":"string","updated_at":"string"}],"created_at":"string","description":"string","id":"string","image":"string","name":"string","order":"0","slug":"string","updated_at":"string"}],"description":"string","id":"string","image":"string","name":"string","order":"0","slug":"string","wide":true}]
-/// count : "0"
-
-CategoryResponse categoryResponseFromJson(String str) => CategoryResponse.fromJson(json.decode(str));
-String categoryResponseToJson(CategoryResponse data) => json.encode(data.toJson());
 class CategoryResponse {
   CategoryResponse({
-      List<Categories>? categories, 
-      String? count,}){
+    List<Categories>? categories,
+    String? count,}){
     _categories = categories;
     _count = count;
-}
+  }
 
   CategoryResponse.fromJson(dynamic json) {
     if (json['categories'] != null) {
@@ -23,11 +17,11 @@ class CategoryResponse {
   }
   List<Categories>? _categories;
   String? _count;
-CategoryResponse copyWith({  List<Categories>? categories,
-  String? count,
-}) => CategoryResponse(  categories: categories ?? _categories,
-  count: count ?? _count,
-);
+  CategoryResponse copyWith({  List<Categories>? categories,
+    String? count,
+  }) => CategoryResponse(  categories: categories ?? _categories,
+    count: count ?? _count,
+  );
   List<Categories>? get categories => _categories;
   String? get count => _count;
 
@@ -42,31 +36,19 @@ CategoryResponse copyWith({  List<Categories>? categories,
 
 }
 
-/// active : true
-/// product : [{"active":true,"product":[{"active":true,"created_at":"string","description":"string","id":"string","image":"string","name":"string","order":"0","slug":"string","updated_at":"string"}],"created_at":"string","description":"string","id":"string","image":"string","name":"string","order":"0","slug":"string","updated_at":"string"}]
-/// description : "string"
-/// id : "string"
-/// image : "string"
-/// name : "string"
-/// order : "0"
-/// slug : "string"
-/// wide : true
-
-Categories categoriesFromJson(String str) => Categories.fromJson(json.decode(str));
-String categoriesToJson(Categories data) => json.encode(data.toJson());
 class Categories {
   Categories({
-      bool? active, 
-      List<Products>? product,
-      String? description, 
-      String? id, 
-      String? image, 
-      String? name, 
-      String? order, 
-      String? slug, 
-      bool? wide,}){
+    bool? active,
+    List<Children>? children,
+    String? description,
+    String? id,
+    String? image,
+    String? name,
+    String? order,
+    String? slug,
+    bool? wide,}){
     _active = active;
-    _product = product;
+    _children = children;
     _description = description;
     _id = id;
     _image = image;
@@ -74,14 +56,14 @@ class Categories {
     _order = order;
     _slug = slug;
     _wide = wide;
-}
+  }
 
   Categories.fromJson(dynamic json) {
     _active = json['active'];
-    if (json['product'] != null) {
-      _product = [];
-      json['product'].forEach((v) {
-        _product?.add(Products.fromJson(v));
+    if (json['children'] != null) {
+      _children = [];
+      json['children'].forEach((v) {
+        _children?.add(Children.fromJson(v));
       });
     }
     _description = json['description'];
@@ -93,7 +75,7 @@ class Categories {
     _wide = json['wide'];
   }
   bool? _active;
-  List<Products>? _product;
+  List<Children>? _children;
   String? _description;
   String? _id;
   String? _image;
@@ -101,27 +83,27 @@ class Categories {
   String? _order;
   String? _slug;
   bool? _wide;
-Categories copyWith({  bool? active,
-  List<Products>? product,
-  String? description,
-  String? id,
-  String? image,
-  String? name,
-  String? order,
-  String? slug,
-  bool? wide,
-}) => Categories(  active: active ?? _active,
-  product: product ?? _product,
-  description: description ?? _description,
-  id: id ?? _id,
-  image: image ?? _image,
-  name: name ?? _name,
-  order: order ?? _order,
-  slug: slug ?? _slug,
-  wide: wide ?? _wide,
-);
+  Categories copyWith({  bool? active,
+    List<Children>? children,
+    String? description,
+    String? id,
+    String? image,
+    String? name,
+    String? order,
+    String? slug,
+    bool? wide,
+  }) => Categories(  active: active ?? _active,
+    children: children ?? _children,
+    description: description ?? _description,
+    id: id ?? _id,
+    image: image ?? _image,
+    name: name ?? _name,
+    order: order ?? _order,
+    slug: slug ?? _slug,
+    wide: wide ?? _wide,
+  );
   bool? get active => _active;
-  List<Products>? get product => _product;
+  List<Children>? get children => _children;
   String? get description => _description;
   String? get id => _id;
   String? get image => _image;
@@ -133,8 +115,8 @@ Categories copyWith({  bool? active,
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['active'] = _active;
-    if (_product != null) {
-      map['product'] = _product?.map((v) => v.toJson()).toList();
+    if (_children != null) {
+      map['children'] = _children?.map((v) => v.toJson()).toList();
     }
     map['description'] = _description;
     map['id'] = _id;
@@ -148,33 +130,20 @@ Categories copyWith({  bool? active,
 
 }
 
-/// active : true
-/// product : [{"active":true,"created_at":"string","description":"string","id":"string","image":"string","name":"string","order":"0","slug":"string","updated_at":"string"}]
-/// created_at : "string"
-/// description : "string"
-/// id : "string"
-/// image : "string"
-/// name : "string"
-/// order : "0"
-/// slug : "string"
-/// updated_at : "string"
-
-Products productFromJson(String str) => Products.fromJson(json.decode(str));
-String productToJson(Products data) => json.encode(data.toJson());
-class Products {
-  Products({
-      bool? active, 
-      List<Products>? product,
-      String? createdAt, 
-      String? description, 
-      String? id, 
-      String? image, 
-      String? name, 
-      String? order, 
-      String? slug, 
-      String? updatedAt,}){
+class Children {
+  Children({
+    bool? active,
+    List<ChildrenChild>? childrens,
+    String? createdAt,
+    String? description,
+    String? id,
+    String? image,
+    String? name,
+    String? order,
+    String? slug,
+    String? updatedAt,}){
     _active = active;
-    _product = product;
+    _children = childrens;
     _createdAt = createdAt;
     _description = description;
     _id = id;
@@ -183,14 +152,14 @@ class Products {
     _order = order;
     _slug = slug;
     _updatedAt = updatedAt;
-}
+  }
 
-  Products.fromJson(dynamic json) {
+  Children.fromJson(dynamic json) {
     _active = json['active'];
-    if (json['product'] != null) {
-      _product = [];
-      json['product'].forEach((v) {
-        _product?.add(Products.fromJson(v));
+    if (json['children'] != null) {
+      _children = [];
+      json['children'].forEach((v) {
+        _children?.add(ChildrenChild.fromJson(v));
       });
     }
     _createdAt = json['created_at'];
@@ -203,7 +172,7 @@ class Products {
     _updatedAt = json['updated_at'];
   }
   bool? _active;
-  List<Products>? _product;
+  List<ChildrenChild>? _children;
   String? _createdAt;
   String? _description;
   String? _id;
@@ -212,29 +181,30 @@ class Products {
   String? _order;
   String? _slug;
   String? _updatedAt;
-Products copyWith({  bool? active,
-  List<Products>? product,
-  String? createdAt,
-  String? description,
-  String? id,
-  String? image,
-  String? name,
-  String? order,
-  String? slug,
-  String? updatedAt,
-}) => Products(  active: active ?? _active,
-  product: product ?? _product,
-  createdAt: createdAt ?? _createdAt,
-  description: description ?? _description,
-  id: id ?? _id,
-  image: image ?? _image,
-  name: name ?? _name,
-  order: order ?? _order,
-  slug: slug ?? _slug,
-  updatedAt: updatedAt ?? _updatedAt,
-);
+  Children copyWith({  bool? active,
+    List<ChildrenChild>? children,
+    String? createdAt,
+    String? description,
+    String? id,
+    String? image,
+    String? name,
+    String? order,
+    String? slug,
+    String? updatedAt,
+  }) => Children(
+    active: active ?? _active,
+    childrens: children ?? _children,
+    createdAt: createdAt ?? _createdAt,
+    description: description ?? _description,
+    id: id ?? _id,
+    image: image ?? _image,
+    name: name ?? _name,
+    order: order ?? _order,
+    slug: slug ?? _slug,
+    updatedAt: updatedAt ?? _updatedAt,
+  );
   bool? get active => _active;
-  List<Products>? get product => _product;
+  List<ChildrenChild>? get children => _children;
   String? get createdAt => _createdAt;
   String? get description => _description;
   String? get id => _id;
@@ -247,8 +217,8 @@ Products copyWith({  bool? active,
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['active'] = _active;
-    if (_product != null) {
-      map['product'] = _product?.map((v) => v.toJson()).toList();
+    if (_children != null) {
+      map['children'] = _children?.map((v) => v.toJson()).toList();
     }
     map['created_at'] = _createdAt;
     map['description'] = _description;
@@ -263,12 +233,89 @@ Products copyWith({  bool? active,
 
 }
 
-/// active : true
-/// created_at : "string"
-/// description : "string"
-/// id : "string"
-/// image : "string"
-/// name : "string"
-/// order : "0"
-/// slug : "string"
-/// updated_at : "string"
+class ChildrenChild {
+  ChildrenChild({
+    bool? active,
+    String? createdAt,
+    String? description,
+    String? id,
+    String? image,
+    String? name,
+    String? order,
+    String? slug,
+    String? updatedAt,}){
+    _active = active;
+    _createdAt = createdAt;
+    _description = description;
+    _id = id;
+    _image = image;
+    _name = name;
+    _order = order;
+    _slug = slug;
+    _updatedAt = updatedAt;
+  }
+
+  ChildrenChild.fromJson(dynamic json) {
+    _active = json['active'];
+    _createdAt = json['created_at'];
+    _description = json['description'];
+    _id = json['id'];
+    _image = json['image'];
+    _name = json['name'];
+    _order = json['order'];
+    _slug = json['slug'];
+    _updatedAt = json['updated_at'];
+  }
+  bool? _active;
+  String? _createdAt;
+  String? _description;
+  String? _id;
+  String? _image;
+  String? _name;
+  String? _order;
+  String? _slug;
+  String? _updatedAt;
+  ChildrenChild copyWith({  bool? active,
+    String? createdAt,
+    String? description,
+    String? id,
+    String? image,
+    String? name,
+    String? order,
+    String? slug,
+    String? updatedAt,
+  }) => ChildrenChild(  active: active ?? _active,
+    createdAt: createdAt ?? _createdAt,
+    description: description ?? _description,
+    id: id ?? _id,
+    image: image ?? _image,
+    name: name ?? _name,
+    order: order ?? _order,
+    slug: slug ?? _slug,
+    updatedAt: updatedAt ?? _updatedAt,
+  );
+  bool? get active => _active;
+  String? get createdAt => _createdAt;
+  String? get description => _description;
+  String? get id => _id;
+  String? get image => _image;
+  String? get name => _name;
+  String? get order => _order;
+  String? get slug => _slug;
+  String? get updatedAt => _updatedAt;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['active'] = _active;
+    map['created_at'] = _createdAt;
+    map['description'] = _description;
+    map['id'] = _id;
+    map['image'] = _image;
+    map['name'] = _name;
+    map['order'] = _order;
+    map['slug'] = _slug;
+    map['updated_at'] = _updatedAt;
+    return map;
+  }
+
+}
