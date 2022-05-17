@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:macbro/data/models/product/product_response.dart';
 import '../../../../data/database/boxes/box.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_ticket_provider_mixin.dart';
 import 'package:macbro/data/database/boxes/box.dart';
@@ -26,7 +27,10 @@ class HomeController extends BaseController
   List<t.Products> _new_products = [];
   int _index = 0;
   static int activeInde = 0;
+  static int activeIndexColor = 0;
   final scrollController = ScrollController();
+
+  static late String? slug;
 
   @override
   void onInit() {
@@ -34,18 +38,24 @@ class HomeController extends BaseController
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     getBanners();
     getCategories();
     getFeaturedProducts();
     super.onReady();
   }
 
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    setLoading(false);
+  }
+
   void setIndex(int i) {
     _index = i;
     update();
   }
-
 
   Future addProduct(String id, String image, String name, int price) async {
     final productId = FavoriteProducts()
@@ -71,6 +81,11 @@ class HomeController extends BaseController
 
   void activeIndex(int index) {
     activeInde = index;
+    update();
+  }
+
+  void activeColor(int index) {
+    activeIndexColor = index;
     update();
   }
 

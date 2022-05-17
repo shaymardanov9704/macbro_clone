@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget {
           defaultTransition: Transition.rightToLeft,
           ///
           transitionDuration: const Duration(milliseconds: 100),
+         // home: ProductDetailPage(),
         ),
       ),
     );
