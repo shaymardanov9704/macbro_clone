@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:macbro/data/database/models/basket_products.dart';
+import 'package:macbro/ui/main/basket/widgets/product.dart';
 
 import '../../../data/database/boxes/box.dart';
-import '../../../data/database/models/favorite_products.dart';
 
 class Basket extends StatelessWidget {
   const Basket({Key? key}) : super(key: key);
@@ -12,17 +13,27 @@ class Basket extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Basket'),
+        title: const Text('Basket'),
       ),
-      body: ValueListenableBuilder<Box<FavoriteProducts>>(
-        valueListenable: Boxes.getProducts().listenable(),
+      body: ValueListenableBuilder<Box<BasketProducts>>(
+        valueListenable: Boxes.getProductsForBasket().listenable(),
         builder: (context, box, _) {
-          final tasks = box.values.toList().cast<FavoriteProducts>();
-          return ListView.builder(
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: (){tasks[index].delete();},
-              child: Text(tasks[index].id),),
-            itemCount: tasks.length,
+          final products = box.values.toList().cast<BasketProducts>();
+          return products.isNotEmpty?Container(
+            margin: const EdgeInsets.all(16),
+            height: products.length*137,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white
+            ),
+            child: ListView.builder(
+              itemBuilder: (context, index) => BasketProduct(product: products[index],),
+              itemCount: products.length,
+            ),
+          ):SizedBox(
+            child: Center(
+              child: Image.asset('assets/png/empty.png',width: 311,height: 311,),
+            ),
           );
         },
       ),

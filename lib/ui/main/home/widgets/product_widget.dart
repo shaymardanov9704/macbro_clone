@@ -59,7 +59,6 @@ class ProductItem extends GetView {
                           builder: (context, box, _) {
                             final products =
                             box.values.toList().cast<FavoriteProducts>();
-
                             bool k = false;
                             for (var i = 0; i < products.length; i++) {
                               if (product!.id == products[i].id) {

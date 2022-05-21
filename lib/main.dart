@@ -7,6 +7,7 @@ import 'package:macbro/core/constants/constants.dart';
 import 'package:macbro/core/theme/app_theme.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:macbro/data/database/models/basket_products.dart';
 import 'package:macbro/data/database/models/favorite_products.dart';
 import 'package:macbro/routes/app_pages.dart';
 import 'package:macbro/routes/app_routes.dart';
@@ -25,8 +26,10 @@ Future<void> main() async{
   await Hive.initFlutter();
 
   Hive.registerAdapter(FavoriteProductsAdapter());
+  Hive.registerAdapter(BasketProductsAdapter());
 
   await Hive.openBox<FavoriteProducts>('favorite');
+  await Hive.openBox<BasketProducts>('basket');
   runApp(const MyApp());
 }
 
@@ -40,7 +43,7 @@ class MyApp extends StatelessWidget {
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
         builder: (context) => GetMaterialApp(
-          title: "Sample",
+          title: "MacBro",
           navigatorKey: AppConstants.navigatorKey,
           /// theme
           theme: AppThemes.light,
