@@ -19,7 +19,7 @@ class Characteristics extends StatelessWidget {
           Container(
             width: 343.w,
             height: 160,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: AppUtils.kBorderRadius8,
               color: Colors.white
             ),
@@ -33,7 +33,7 @@ class Characteristics extends StatelessWidget {
                   borderRadius: AppUtils.kBorderRadius8,
                   color: Colors.grey.shade200
               ),
-              child: Center(
+              child: const Center(
                 child: Text('Подробнее ...'),
               ),
             ),

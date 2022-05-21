@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:macbro/data/models/product/product_response.dart';
 import '../../../../data/database/boxes/box.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_ticket_provider_mixin.dart';
 import 'package:macbro/data/database/boxes/box.dart';
@@ -30,7 +29,6 @@ class HomeController extends BaseController
   static int activeIndexColor = 0;
   final scrollController = ScrollController();
 
-  static late String? slug;
 
   @override
   void onInit() {

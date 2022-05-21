@@ -15,6 +15,7 @@ class BannerList extends StatefulWidget {
 }
 
 class _BannerListState extends State<BannerList> {
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(

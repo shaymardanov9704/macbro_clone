@@ -13,9 +13,7 @@ class ProductDetailController extends BaseController
 
   static int activeI = 0;
   ProductResponse _product = ProductResponse();
-  String slug = 'dji-om5-juqgil2bn5me5';
-  List? gallery = [];
-  Variants? variants = Variants();
+  Variants? _variants = Variants();
 
   @override
   void onInit() {
@@ -24,8 +22,12 @@ class ProductDetailController extends BaseController
 
   @override
   void onReady() {
-    getProduct(slug);
     super.onReady();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
   }
 
   void activeIndex(int index) {
@@ -33,34 +35,29 @@ class ProductDetailController extends BaseController
     update();
   }
 
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
-    setLoading(false);
-  }
-
   Future<void> getProduct(String? slugs) async {
     setLoading(true);
     final result = await repository?.getProduct(slugs);
     if (result is ProductResponse) {
-      _product = result as ProductResponse;
+      _product = result;
       update();
     } else {
       Get.snackbar('error'.tr, result.toString());
     }
   }
 
-  getVariant(String color, String cap) {
+  Future<List<String>?> getVariant(String? color, String cap) async{
     for (var i = 0; i < _product.product!.variants!.length; i++) {
       if (_product.product?.variants?[i].name ==
-          '${color.toLowerCase()}-$cap') {
-        variants = _product.product?.variants?[i];
+          '${color?.toLowerCase()}-${cap.toLowerCase()}') {
+        _variants = _product.product?.variants?[i];
+        return _product.product?.variants?[i].value?.gallery;
       }
     }
+    update();
   }
 
-  Product get product => _product.product ?? Product();
+  Product? get product => _product.product;
 
-  Variants get variant => variants ?? Variants();
+  Variants? get variant => _variants;
 }

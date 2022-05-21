@@ -6,11 +6,8 @@ import 'package:get/get.dart';
 import 'package:macbro/controller/main/product_detail/product_detail_page_controller.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../../../../controller/main/home/home_controller.dart';
 
 class ProductBanner extends GetView<ProductDetailController> {
-  ProductBanner({required this.bannerList});
-  final List? bannerList;
   int active = 0;
   List list = [
     'assets/png/img.png',
@@ -23,7 +20,7 @@ class ProductBanner extends GetView<ProductDetailController> {
     return GetBuilder<ProductDetailController>(
       builder: ((controller) {
         return Visibility(
-            visible: controller.product.variants![0].value!.gallery!.isNotEmpty,
+            visible: controller.variant != null,
             child: Container(
           height: 250,
           color: Colors.white,
@@ -32,18 +29,18 @@ class ProductBanner extends GetView<ProductDetailController> {
               CarouselSlider.builder(
                 options: CarouselOptions(
                     height: 180.h,
-                    autoPlay: false,
+                    autoPlay: true,
                     viewportFraction: 1,
                     autoPlayInterval: const Duration(seconds: 2),
                     onPageChanged: (index, reason) =>
                         controller.activeIndex(index)),
-                itemCount: controller.product.variants![0].value!.gallery!.length,
+                itemCount: controller.variant?.value?.gallery?.length??controller.product?.variants?[1].value?.gallery?.length,
                 itemBuilder: (context, index, realIndex) {
-                  var banner =controller.product.variants![0].value!.gallery![index];
+                  var banner = controller.variant?.value?.gallery?[index]??controller.product?.variants?[1].value?.gallery?[index];
                   return Container(
                     margin: const EdgeInsets.only(top: 16),
                     child: CachedNetworkImage(
-                      imageUrl: banner,
+                      imageUrl: banner??'',
                       width: 194,
                       height: 229,
                     ),
@@ -60,7 +57,7 @@ class ProductBanner extends GetView<ProductDetailController> {
                   children: [
                     AnimatedSmoothIndicator(
                       activeIndex: ProductDetailController.activeI,
-                      count: controller.product.variants![0].value!.gallery!.length,
+                      count: 3,
                       effect: const ScrollingDotsEffect(
                           dotColor: Colors.grey,
                           activeDotColor: Colors.black87,
